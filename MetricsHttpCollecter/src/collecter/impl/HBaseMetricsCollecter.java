@@ -115,8 +115,7 @@ public class HBaseMetricsCollecter extends AbstractCollecter{
 	
 	public String getURL(){
 		//TODO modify url
-//		String url = "http://"+StringHelper.hostname()+":60030/metrics?format=json";
-		String url ="http://h024173.eos.grid.sina.com.cn:60030/metrics?format=json";
+		String url = "http://"+StringHelper.hostname()+":60030/metrics?format=json";
 		return url;
 	}
 	
