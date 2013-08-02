@@ -164,7 +164,7 @@ public class HBaseMetricsCollecter extends AbstractCollecter{
 		Future<Map<String, String>> future = executor
 				.submit(new HBaseMetricsCollecter(new Config("tsdb.properties"),new Sigar()));
 		try {
-			Map<String, String> results = future.get(40000 * 1000,
+			Map<String, String> results = future.get(10 * 1000,
 					TimeUnit.MICROSECONDS);
 			for (Entry<String, String> entry : results.entrySet()) {
 				System.out.println(entry.getKey() + "\t" + entry.getValue());
