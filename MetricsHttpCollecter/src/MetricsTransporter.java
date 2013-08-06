@@ -75,6 +75,7 @@ public class MetricsTransporter {
 	
 	public void metricsdump(){
 		long timestamp = stamp();
+		int count =0;
 		System.out.println("timestamp="+timestamp);
 		for(Collecter collecter:_collecters){
 			Future<Map<String,String>> future = exePool.submit(collecter);
@@ -90,7 +91,9 @@ public class MetricsTransporter {
 						String[] kv = _tmp.split(":");
 						selfTags.put(kv[0], kv[1]);
 					}
+					System.out.println(metric+"~"+metricWithTag.getValue()+"~"+selfTags);
 					try {
+						count++;
 						if (metricWithTag.getValue().contains(".")) {
 							tsdb.addPoint(metric, timestamp,Float.valueOf(metricWithTag.getValue()), selfTags);
 						} else {
@@ -100,7 +103,6 @@ public class MetricsTransporter {
 						System.out.println(String.format("can't convert metric=[%s],value=[%s]", metricWithTag.getKey(),metricWithTag.getValue()));
 					}
 				}
-				Log.info("total put="+metrics.size());
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			} catch (ExecutionException e) {
@@ -109,6 +111,7 @@ public class MetricsTransporter {
 				LOG.error(String.format("collect metrics timeout,Collecter Class=%s", collecter.getClass()));
 			}
 		}
+		System.out.println("total put="+count);
 	}
 	
 	public long stamp(){
